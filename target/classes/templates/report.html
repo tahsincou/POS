@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Daily Sells Report</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+  <script th:src="@{/js/report.js}"></script>
+</head>
+
+
+<header th:replace="~{common/navbar.html :: header(pageTitle='Daily Sells Report', user='Tahsin')}"></header>
+
+
+<body>
+	<div class="flex justify-center items-center mt-20 max-h-full">
+    <div class="bg-white shadow-md rounded-md p-8 w-2/3 bg-gray-50">
+        <table id="reportTable" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th class="py-2 px-4 border">Date</th>
+                    <th class="py-2 px-4 border">Total Purchase</th>
+                    <th class="py-2 px-4 border">Total Sell</th>
+                    <th class="py-2 px-4 border">Total Paid</th>
+                    <th class="py-2 px-4 border">Total Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="report : ${reports}"
+                    class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="py-2 px-4 border"
+                        th:text="${#dates.format(report.purchaseDate, 'yyyy-MM-dd')}"></td>
+                    <td class="py-2 px-4 border" th:text="${report.totalPurchase}"></td>
+                    <td class="py-2 px-4 border" th:text="${report.totalSell}"></td>
+                    <td class="py-2 px-4 border" th:text="${report.totalPaid}"></td>
+                    <td class="py-2 px-4 border" th:text="${report.totalDue}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+
+</html>

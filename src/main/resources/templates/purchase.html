@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Purchase</title>
+	<!-- Include Tailwind CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" charset="utf8"
+		src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+	<script th:src="@{/js/report.js}"></script>
+</head>
+
+
+<header th:replace="~{common/navbar.html :: header(pageTitle='Purchase', user='Tahsin')}"></header>
+
+<body>
+	<div class="flex">
+		<!-- Form Container -->
+		<div class="flex-shrink-0 w-1/2 p-4">
+			<form id="purchaseForm" th:action="@{/purchase/save}" th:object="${purchase}" method="post"
+				class="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
+				<!-- Date Field -->
+				<div class="mb-4">
+					<label for="date" class="block text-sm font-medium text-gray-600">Select Date:</label>
+					<input type="date" id="date" th:field="*{purchaseDate}" pattern="yyyy-MM-dd"
+						onchange="fetchPurchases()" required
+						class="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500 ">
+				</div>
+
+				<!-- Buyer Name Field -->
+				<div class="mb-4">
+					<label for="buyerName" class="block text-sm font-medium text-gray-600">Buyer Name:</label>
+					<input type="text" id="buyerName" th:field="*{buyerName}" required
+						class="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500 ">
+				</div>
+
+				<!-- Buyer Phone Field -->
+				<div class="mb-4">
+					<label for="buyerPhone" class="block text-sm font-medium text-gray-600">Buyer Phone:</label>
+					<input type="text" id="buyerPhone" th:field="*{buyerPhone}"
+						class="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500 ">
+				</div>
+
+				<!-- Purchase Cost Field -->
+				<div class="mb-4">
+					<label for="purchaseCost" class="block text-sm font-medium text-gray-600">Purchase Cost:</label>
+					<input type="text" id="purchaseCost" th:field="*{purchaseCost}" required
+						class="mt-1 p-2 block w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500 ">
+				</div>
+
+				<!-- Submit Button -->
+				<div class="mt-4">
+					<button type="submit"
+						class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 focus:border-indigo-500">
+						Save
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Table Container -->
+		<div class="flex-shrink-0 w-1/2 p-4">
+			<div id="purchaseTableContainer">
+				<h2 class="text-lg mb-4">Purchase List</h2>
+				<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" id="purchaseTable">
+					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th class="p-2 border border-gray-300">Date</th>
+							<th class="p-2 border border-gray-300">Buyer Name</th>
+							<th class="p-2 border border-gray-300">Buyer Phone</th>
+							<th class="p-2 border border-gray-300">Purchase Cost</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Loop through the list of purchases and display them in the table -->
+						<tr th:each="purchase : ${purchaseList}">
+							<td class="p-2 border border-gray-300"
+								th:text="${#dates.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
+							<td class="p-2 border border-gray-300" th:text="${purchase.buyerName}"></td>
+							<td class="p-2 border border-gray-300" th:text="${purchase.buyerPhone}"></td>
+							<td class="p-2 border border-gray-300" th:text="${purchase.purchaseCost}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script th:src="@{/js/purchase.js}"></script>
+
+</html>
